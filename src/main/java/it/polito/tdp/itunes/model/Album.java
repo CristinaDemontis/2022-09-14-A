@@ -4,12 +4,14 @@ public class Album implements Comparable<Album>{
 	private Integer albumId;
 	private String title;
 	private Double durata;
+	private int numTracce; 
 	
 	public Album(Integer albumId, String title, Double durata) {
 		super();
 		this.albumId = albumId;
 		this.title = title;
 		this.durata = durata;
+		
 	}
 
 	public Integer getAlbumId() {
@@ -70,6 +72,15 @@ public class Album implements Comparable<Album>{
 	public int compareTo(Album o) {
 		return this.title.compareTo(o.title);
 	}
+
+	public int getNumTracce() {
+		return numTracce;
+	}
+
+	public void setNumTracce(int numTracce) {
+		this.numTracce = numTracce;
+	}
+	
 	
 	
 	

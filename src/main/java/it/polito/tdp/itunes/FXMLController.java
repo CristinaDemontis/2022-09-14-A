@@ -5,7 +5,11 @@
 package it.polito.tdp.itunes;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import it.polito.tdp.itunes.model.Album;
 import it.polito.tdp.itunes.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,7 +38,7 @@ public class FXMLController {
     private Button btnSet; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbA1"
-    private ComboBox<?> cmbA1; // Value injected by FXMLLoader
+    private ComboBox<Album> cmbA1; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtDurata"
     private TextField txtDurata; // Value injected by FXMLLoader
@@ -48,11 +52,49 @@ public class FXMLController {
     @FXML
     void doComponente(ActionEvent event) {
     	
+    	Album a1 = cmbA1.getValue(); 
+    	
+    	if(a1 == null) {
+    		txtResult.setText("Scegliere un album dalla tendina!");
+    		return; 
+    	}else {
+    		Integer dimensioneComponente = this.model.getNumComponeneteConnessa(a1); 
+    		Double durataTotale = this.model.getPesoTotComponenteConnessa(a1); 
+    		
+    		txtResult.appendText("\n");
+    		txtResult.appendText("La dimensione della componente connessa è: " +dimensioneComponente+ "\n");
+    		txtResult.appendText("La durata complessiva di tutti gli album presenti nella componente connessa è: " +durataTotale+ "\n");
+    		
+    		
+    	}
+    	
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
     	
+    	String input = txtDurata.getText(); 
+    	double durata =0; 
+    	try {
+    		durata = Double.parseDouble(input); 
+    	}catch(NumberFormatException e ) { 
+    		txtResult.setText("Inserire un valore valido per la durata dell'album!");
+    		return; 
+    	}
+    	
+    	this.model.creaGrafo(durata);
+    	txtResult.setText("Grafo creato!");
+    	txtResult.appendText("-Vertici: " +this.model.getnVertici()+"\n");
+    	txtResult.appendText("-Archi: " +this.model.getnArchi()+"\n");
+    	
+    	List<Album> lista = this.model.getVertici(); 
+    	
+    	for(Album a: lista ) {
+    		cmbA1.getItems().add(a); 
+    	}
+    	
+    	
+
     }
 
     @FXML
